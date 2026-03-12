@@ -21,7 +21,7 @@ public abstract class UnitLeaf implements CombatNode {
 
     @Override
     public int getHealth() {
-        return health;
+        return isAlive() ? health : 0;
     }
 
     @Override

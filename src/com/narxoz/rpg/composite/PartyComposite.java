@@ -29,14 +29,14 @@ public class PartyComposite implements CombatNode {
     public int getHealth() {
         // TODO: Composite aggregation
         // Return total health of all children (and nested children).
-        return 0;
+        return children.stream().mapToInt(CombatNode::getHealth).sum();
     }
 
     @Override
     public int getAttackPower() {
         // TODO: Composite aggregation
         // Return total attack of alive children only.
-        return 0;
+        return children.stream().mapToInt(CombatNode::getAttackPower).sum();
     }
 
     @Override
@@ -47,13 +47,23 @@ public class PartyComposite implements CombatNode {
         // 1) Collect alive children
         // 2) Split amount evenly (or using your own documented rule)
         // 3) Apply damage to each child
+        List<CombatNode> aliveNodes = getAliveChildren();
+        for (CombatNode node:aliveNodes){
+            if(aliveNodes.size() == 1){
+                node.takeDamage(amount);
+                break;
+            }
+            node.takeDamage(amount/aliveNodes.size());
+            amount -= amount/aliveNodes.size();
+            aliveNodes.remove(node);
+        }
     }
 
     @Override
     public boolean isAlive() {
         // TODO: Composite liveness
         // Return true when at least one child is alive.
-        return false;
+        return children.stream().anyMatch(CombatNode::isAlive);
     }
 
     @Override
@@ -65,11 +75,11 @@ public class PartyComposite implements CombatNode {
     public void printTree(String indent) {
         // TODO: Tree visualization
         // Print this node and recurse into children with increased indent.
-        System.out.println(indent + "+ " + name + " [TODO: compute HP/ATK]");
+        System.out.println(String.format("%s+ %s %d/%d", indent, name, getHealth(), getAttackPower()));
     }
 
     private List<CombatNode> getAliveChildren() {
         // TODO: helper for takeDamage()
-        return new ArrayList<>();
+        return new ArrayList<>(children.stream().filter(CombatNode::isAlive).toList());
     }
 }
