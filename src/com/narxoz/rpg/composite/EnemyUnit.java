@@ -4,4 +4,9 @@ public class EnemyUnit extends UnitLeaf {
     public EnemyUnit(String name, int health, int attackPower) {
         super(name, health, attackPower);
     }
+
+    @Override
+    public CombatNode clone() {
+        return new EnemyUnit(getName(), getHealth(), getAttackPower());
+    }
 }

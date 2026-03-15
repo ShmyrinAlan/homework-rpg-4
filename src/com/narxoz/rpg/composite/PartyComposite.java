@@ -78,6 +78,13 @@ public class PartyComposite implements CombatNode {
         System.out.println(String.format("%s+ %s %d/%d", indent, name, getHealth(), getAttackPower()));
     }
 
+    @Override
+    public CombatNode clone() {
+        PartyComposite clone = new PartyComposite(name);
+        children.forEach(item -> clone.add(item.clone()));
+        return clone;
+    }
+
     private List<CombatNode> getAliveChildren() {
         // TODO: helper for takeDamage()
         return new ArrayList<>(children.stream().filter(CombatNode::isAlive).toList());

@@ -10,4 +10,5 @@ public interface CombatNode {
     boolean isAlive();
     List<CombatNode> getChildren();
     void printTree(String indent);
+    CombatNode clone();
 }

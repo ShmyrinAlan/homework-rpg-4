@@ -3,6 +3,7 @@ package com.narxoz.rpg.battle;
 import com.narxoz.rpg.bridge.Skill;
 import com.narxoz.rpg.composite.CombatNode;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class RaidEngine {
@@ -24,10 +25,16 @@ public class RaidEngine {
         // Optional extension:
         // Use random for critical strikes or other deterministic events.
         // Example: boolean critA = random.nextInt(100) < 10;
+
+        if(Objects.isNull(teamA)|| Objects.isNull(teamB) || Objects.isNull(teamASkill) || Objects.isNull(teamBSkill)) throw new IllegalArgumentException("arguments can not be null");
         RaidResult result = new RaidResult();
-        result.setRounds(0);
-        result.setWinner("TBD");
-        result.addLine("TODO: implement raid simulation");
+        if(!teamA.isAlive() || !teamB.isAlive()){
+            result.setRounds(0);
+            result.setWinner(!teamA.isAlive() && !teamB.isAlive() ? "No winner": teamA.isAlive() ? teamA.getName() : teamB.getName());
+            result.addLine("at least one of the teams dead or empty");
+            return result;
+        }
+        
         return result;
     }
 }
