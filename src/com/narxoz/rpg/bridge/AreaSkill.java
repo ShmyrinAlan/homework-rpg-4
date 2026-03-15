@@ -13,7 +13,6 @@ public class AreaSkill extends Skill {
         // Apply resolved damage to a composite target.
         // Tip: Let Composite classes decide how to distribute AOE damage.
 
-        System.out.println(String.format("%s casts on %s",getSkillName(),target.getName()));
         switch (getEffectName().toLowerCase()){
             case "fire" -> {
                 if(target.getHealth() < 50) target.takeDamage(getBasePower() + 30);

@@ -3,6 +3,7 @@ package com.narxoz.rpg.battle;
 import com.narxoz.rpg.bridge.Skill;
 import com.narxoz.rpg.composite.CombatNode;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -34,7 +35,28 @@ public class RaidEngine {
             result.addLine("at least one of the teams dead or empty");
             return result;
         }
-        
+        CombatNode cloneA = teamA.clone(), cloneB = teamB.clone();
+        result.setRounds(0);
+        while (cloneA.isAlive() && cloneB.isAlive()){
+            result.setRounds(result.getRounds() + 1);
+            result.addLine("round " + result.getRounds() + " is begin");
+            cloneB.takeDamage(cloneA.getAttackPower());
+            result.addLine("teamA attacks teamB. teamB HP: " + cloneB.getHealth());
+            teamASkill.cast(cloneB);
+            result.addLine("teamA casts skill on teamB. teamB HP: " + cloneB.getHealth());
+            if(!cloneB.isAlive()){
+                result.setWinner(cloneA.getName());
+                return result;
+            }
+            cloneA.takeDamage(cloneB.getAttackPower());
+            result.addLine("teamB attacks teamA. teamA HP: " + cloneA.getHealth());
+            teamBSkill.cast(cloneA);
+            result.addLine("teamB casts skill on teamA. teamA HP: " + cloneA.getHealth());
+            if(!cloneA.isAlive()){
+                result.setWinner(cloneB.getName());
+                return result;
+            }
+        }
         return result;
     }
 }

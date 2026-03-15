@@ -15,7 +15,6 @@ public class SingleTargetSkill extends Skill {
         // 1) Resolve final damage through effect implementor
         // 2) Apply to target node
         if(target.getChildren().isEmpty()){
-            System.out.println(String.format("%s casts on %s",getSkillName(),target.getName()));
             switch (getEffectName().toLowerCase()){
                 case "fire" -> {
                     if(target.getHealth() < 30) target.takeDamage(getBasePower() + 10);

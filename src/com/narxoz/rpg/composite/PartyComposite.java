@@ -48,14 +48,15 @@ public class PartyComposite implements CombatNode {
         // 2) Split amount evenly (or using your own documented rule)
         // 3) Apply damage to each child
         List<CombatNode> aliveNodes = getAliveChildren();
-        for (CombatNode node:aliveNodes){
+        int size = aliveNodes.size();
+        for (int i = 0; i < size; i++){
             if(aliveNodes.size() == 1){
-                node.takeDamage(amount);
+                aliveNodes.getFirst().takeDamage(amount);
                 break;
             }
-            node.takeDamage(amount/aliveNodes.size());
+            aliveNodes.getFirst().takeDamage(amount/aliveNodes.size());
             amount -= amount/aliveNodes.size();
-            aliveNodes.remove(node);
+            aliveNodes.remove(0);
         }
     }
 
